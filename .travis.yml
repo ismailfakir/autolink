@@ -3,5 +3,3 @@ scala: 2.13.3
 branches:
   only:
     - main # build main branch only
-jdk:
-  - oraclejdk8
