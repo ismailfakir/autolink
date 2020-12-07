@@ -9,7 +9,7 @@ import play.api.mvc._
  * application's home page.
  */
 @Singleton
-class HomeController @Inject()(val controllerComponents: ControllerComponents, val config: Configuration) extends BaseController {
+class HomeController @Inject()(val config: Configuration, val c: ControllerComponents) extends AbstractController(c) {
 
   /**
    * Create an Action to render an HTML page.
@@ -19,8 +19,7 @@ class HomeController @Inject()(val controllerComponents: ControllerComponents, v
    * a path of `/`.
    */
   def index() = Action { implicit request: Request[AnyContent] =>
-  
-  val sourceVersion = config.underlying.getString("git.source.versions")
+    val sourceVersion: String = config.get[String]("git.source.versions")
     Ok(views.html.index(sourceVersion))
   }
 }
