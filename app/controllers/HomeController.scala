@@ -22,4 +22,8 @@ class HomeController @Inject()(val config: Configuration, val c: ControllerCompo
     val sourceVersion: String = config.get[String]("git.source.versions")
     Ok(views.html.index(sourceVersion))
   }
+
+  def login() = Action { implicit request: Request[AnyContent] =>
+    Ok(views.html.login())
+  }
 }

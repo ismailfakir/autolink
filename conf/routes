@@ -5,6 +5,11 @@
 
 # An example controller showing a sample home page
 GET     /                           controllers.HomeController.index
+GET     /login                           controllers.HomeController.login
+
+# sample pages from templates
+# GET /sample/blank  controllers.Assets.at(path="/public", file="pages/blank-page.html")
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)
+
