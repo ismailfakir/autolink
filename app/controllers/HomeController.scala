@@ -26,4 +26,8 @@ class HomeController @Inject()(val config: Configuration, val c: ControllerCompo
   def login() = Action { implicit request: Request[AnyContent] =>
     Ok(views.html.login())
   }
+
+  def blank() = Action { implicit request: Request[AnyContent] =>
+    Ok(views.html.blank())
+  }
 }

@@ -6,6 +6,7 @@
 # An example controller showing a sample home page
 GET     /                           controllers.HomeController.index
 GET     /login                           controllers.HomeController.login
+GET     /blank                           controllers.HomeController.blank
 
 # sample pages from templates
 # GET /sample/blank  controllers.Assets.at(path="/public", file="pages/blank-page.html")
