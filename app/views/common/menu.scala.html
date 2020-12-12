@@ -1,0 +1,7 @@
+@(menu: models.ui.Menu)
+
+@import play.twirl.api._
+
+<li class="nav-item">
+    <a class="nav-link" href="@{menu.href}"><i class="@{menu.icon}"></i>@{menu.name}</a>
+</li>

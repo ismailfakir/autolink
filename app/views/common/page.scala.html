@@ -5,7 +5,7 @@
 * object to insert into the body of the page.
 *@
 
-@(title: String)(content: Html)
+@(title: String)(menuGroups: List[models.ui.MenuGroup])(content: Html)
 
 @template(title) {
 
@@ -26,7 +26,7 @@
     <!-- left sidebar -->
     <!-- ============================================================== -->
     <div class="nav-left-sidebar sidebar-dark">
-        @sidebar()
+        @sidebar(menuGroups)
     </div>
     <!-- ============================================================== -->
     <!-- end left sidebar -->

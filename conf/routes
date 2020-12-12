@@ -7,6 +7,7 @@
 GET     /                           controllers.HomeController.index
 GET     /login                           controllers.HomeController.login
 GET     /blank                           controllers.HomeController.blank
+GET     /dashboard                           controllers.HomeController.dashboard
 
 # sample pages from templates
 # GET /sample/blank  controllers.Assets.at(path="/public", file="pages/blank-page.html")

@@ -1,0 +1,44 @@
+@*******************************************
+* Menu Group.                               *
+*                                           *
+* @param menuGroup The menuGroup to display *
+*************************************@
+@(menuGroup: models.ui.MenuGroup)
+
+@import play.twirl.api._
+
+@*************************************************************************
+* if menu group name is 'blank' then list the menus without menu group   *
+*************************************************************************@
+@if(menuGroup.name == "blank") {
+    @for(m <- menuGroup.menuList) {
+        @menu(m)
+    }
+} else {
+
+    <li class="nav-item">
+        <a class="nav-link" href="#" data-toggle="collapse" aria-expanded="false" data-target="#submenu-5" aria-controls="submenu-5"><i class="@{menuGroup.icon}"></i>@{menuGroup.name}</a>
+        <div id="submenu-5" class="collapse submenu" style="">
+            <ul class="nav flex-column">
+                @for(m <- menuGroup.menuList) {
+                    @menu(m)
+                }
+            </ul>
+        </div>
+    </li>
+
+}
+
+<!--<li class="nav-item">
+    <a class="nav-link" href="#" data-toggle="collapse" aria-expanded="false" data-target="#submenu-5" aria-controls="submenu-5"><i class="fas fa-fw fa-table"></i>Tables</a>
+    <div id="submenu-5" class="collapse submenu" style="">
+        <ul class="nav flex-column">
+            <li class="nav-item">
+                <a class="nav-link" href="general-table.html">General Tables</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="data-tables.html">Data Tables</a>
+            </li>
+        </ul>
+    </div>
+</li>-->
