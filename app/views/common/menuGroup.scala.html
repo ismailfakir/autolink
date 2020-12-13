@@ -17,8 +17,8 @@
 } else {
 
     <li class="nav-item">
-        <a class="nav-link" href="#" data-toggle="collapse" aria-expanded="false" data-target="#submenu-5" aria-controls="submenu-5"><i class="@{menuGroup.icon}"></i>@{menuGroup.name}</a>
-        <div id="submenu-5" class="collapse submenu" style="">
+        <a class="nav-link" href="#" data-toggle="collapse" aria-expanded="false" data-target="#submenu-@{menuGroup.id}" aria-controls="submenu-@{menuGroup.id}"><i class="@{menuGroup.icon}"></i>@{menuGroup.name}</a>
+        <div id="submenu-@{menuGroup.id}" class="collapse submenu" style="">
             <ul class="nav flex-column">
                 @for(m <- menuGroup.menuList) {
                     @menu(m)
