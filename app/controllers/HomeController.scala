@@ -1,6 +1,7 @@
 package controllers
 
 import javax.inject._
+import models.db.SampleData
 import models.ui.MenuGroup
 import play.api._
 import play.api.mvc._
@@ -28,8 +29,8 @@ class HomeController @Inject()(val config: Configuration, val c: ControllerCompo
     Ok(views.html.login())
   }
 
-  def blank() = Action { implicit request: Request[AnyContent] =>
-    Ok(views.html.blank(MenuGroup.all))
+  def logs() = Action { implicit request: Request[AnyContent] =>
+    Ok(views.html.logs(MenuGroup.all,SampleData.logs))
   }
 
   def dashboard() = Action { implicit request: Request[AnyContent] =>

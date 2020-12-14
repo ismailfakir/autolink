@@ -5,9 +5,13 @@
 
 # An example controller showing a sample home page
 GET     /                           controllers.HomeController.index
-GET     /login                           controllers.HomeController.login
-GET     /blank                           controllers.HomeController.blank
-GET     /dashboard                           controllers.HomeController.dashboard
+GET     /login                      controllers.HomeController.login
+GET     /dashboard                  controllers.HomeController.dashboard
+GET     /logs                       controllers.HomeController.logs
+
+# samples
+GET     /blank                      controllers.SampleController.blank
+GET     /invoice                    controllers.SampleController.invoice
 
 # sample pages from templates
 # GET /sample/blank  controllers.Assets.at(path="/public", file="pages/blank-page.html")

@@ -21,8 +21,7 @@ object MenuGroup {
     "blank", // will list only menu
     "fas fa-fw fa-tasks",
     List(
-      Menu("Blank Page","/blank","fas fa-fw fa-file"),
-      Menu("Logs","/blank","fas fa-fw fa-tags")
+      Menu("Logs","/logs","fas fa-fw fa-tags")
     )
   )
 
@@ -31,6 +30,7 @@ object MenuGroup {
     "Sample",
     "fas fa-fw fa-table",
     List(
+      Menu("Blank Page","/blank","fas fa-fw fa-file"),
       Menu("Invoice","/invoice","fas fa-fw fa-book")
     )
   )
