@@ -5,9 +5,9 @@
 * object to insert into the body of the page.
 *@
 
-@(title: String)(menuGroups: List[models.ui.MenuGroup])(content: Html)
+@(title: String,scripts: Html = Html(""))(menuGroups: List[models.ui.MenuGroup])(content: Html)
 
-@template(title) {
+@template(title,scripts) {
 
 <!-- ============================================================== -->
 <!-- main wrapper -->

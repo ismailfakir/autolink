@@ -10,7 +10,7 @@ object MenuGroup {
     "Dashboard",
     "fas fa-fw fa-server",
     List(
-      Menu("Users","/dashboard","fas fa-fw fa-users"),
+      Menu("Users","/users","fas fa-fw fa-users"),
       Menu("Configuration","/dashboard","fas fa-fw fa-cogs"),
       Menu("Tools","/dashboard","fas fa-fw fa-wrench")
     )

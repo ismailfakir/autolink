@@ -9,6 +9,10 @@ GET     /login                      controllers.HomeController.login
 GET     /dashboard                  controllers.HomeController.dashboard
 GET     /logs                       controllers.HomeController.logs
 
+# users
+GET /users  controllers.UserController.listUsers
+POST /users  controllers.UserController.createUser
+
 # samples
 GET     /blank                      controllers.SampleController.blank
 GET     /invoice                    controllers.SampleController.invoice

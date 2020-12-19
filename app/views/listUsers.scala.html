@@ -1,0 +1,143 @@
+@import models.ui.UIHelpers._
+@(menuGroups: List[models.ui.MenuGroup], users: List[models.record.User], form: Form[models.ui.UserForm.Data], postUrl: Call)(implicit request: MessagesRequestHeader)
+<!--extra script-->
+@scripts = {
+    @* Flash shows updates to a page *@
+    @request.flash.data.map{ case (name, value) =>
+        <script>
+            displayInfo('@value','@name');
+        </script>
+    }
+}
+
+@common.page("User list",scripts)(menuGroups) {
+<!--page header start-->
+<div class="row">
+    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+        <div class="page-header">
+            <h2 class="pageheader-title">List Users </h2>
+
+            <div class="page-breadcrumb">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="#" class="breadcrumb-link">User</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Create User</li>
+                    </ol>
+                </nav>
+            </div>
+
+        </div>
+    </div>
+</div>
+<!--page header end-->
+
+<div class="row">
+    <div class="offset-xl-2 col-xl-8 col-lg-12 col-md-12 col-sm-12 col-12">
+        <div class="row">
+            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 m-b-60">
+
+                <div class="row">
+                    <div class="col-xl-12 col-lg-6 col-md-12 col-sm-12 col-12">
+                    <div class="card">
+                        <div class="card-header p-3">
+                            <h3 class="pt-2 d-inline-block text-primary">User list</h3>
+
+                            <div class="float-right">
+                                <!-- Button trigger modal -->
+                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addModal">
+                                    Add User
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="card-body">
+                            <table class="table table-bordered table-hover">
+                                <thead>
+                                <tr><th scope="col">Name</th><th scope="col">Password</th><th scope="col"></th></tr>
+                                </thead>
+                                <tbody>
+                                @for(u <- users) {
+                                    <tr>
+                                        <td scope="col">@u.name</td>
+                                        <td scope="col">@u.password</td>
+                                        <td>
+
+                                            <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#editModal">
+                                                <i class="fas fa-edit"></i>
+                                            </button>
+
+                                            <button type="button" class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#deleteModal">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+
+                                        </td>
+                                    </tr>
+                                }
+                                </tbody>
+                            </table>
+                            <hr/>
+
+                            @* Global errors are not tied to any particular form field
+                            @if(form.hasGlobalErrors) {
+                            @form.globalErrors.map { error: FormError =>
+                                    <div>
+                                        @error.key: @error.message
+                                    </div>
+                                }
+                            }
+
+                            @helper.form(postUrl) {
+                            @helper.CSRF.formField
+
+                            @helper.inputText(form("username"))
+
+                            @helper.inputText(form("password"))
+
+                            <button>Create user</button>
+                            }*@
+                        </div>
+                    </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!-- Modal add-->
+<div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addModalLabel">Add User</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <!--<form action="@postUrl" method="post">-->@helper.form(postUrl) {
+                @helper.CSRF.formField
+
+                <div class="modal-body">
+                    <div class="form-group">
+                        <!--<label for="username" class="col-form-label">User Name</label>
+                        <input type="text" class="form-control" id="username">-->
+                        @helper.inputText(form("username"),'class -> "form-control",'_label -> "User Name")
+                    </div>
+                    <div class="form-group">
+                        <!--<label for="password" class="col-form-label">Password</label>
+                        <input type="text" class="form-control" id="password">-->
+                        @helper.inputText(form("password"),'class -> "form-control",'_label -> "Password")
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Save</button>
+                </div>
+            }<!--</form>-->
+        </div>
+    </div>
+</div><!-- Modal add end-->
+
+
+}
