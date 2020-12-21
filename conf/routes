@@ -4,18 +4,18 @@
 # ~~~~
 
 # An example controller showing a sample home page
-GET     /                           controllers.HomeController.index
-GET     /login                      controllers.HomeController.login
-GET     /dashboard                  controllers.HomeController.dashboard
-GET     /logs                       controllers.HomeController.logs
+GET     /                           controllers.HomeController.index()
+GET     /login                      controllers.HomeController.login()
+GET     /dashboard                  controllers.HomeController.dashboard()
+GET     /logs                       controllers.HomeController.logs()
 
 # users
-GET /users  controllers.UserController.listUsers
-POST /users  controllers.UserController.createUser
+GET /users  controllers.UserController.listUsers()
+POST /users  controllers.UserController.createUser()
 
 # samples
-GET     /blank                      controllers.SampleController.blank
-GET     /invoice                    controllers.SampleController.invoice
+GET     /blank                      controllers.SampleController.blank()
+GET     /invoice                    controllers.SampleController.invoice()
 
 # sample pages from templates
 # GET /sample/blank  controllers.Assets.at(path="/public", file="pages/blank-page.html")

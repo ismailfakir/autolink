@@ -1,19 +1,16 @@
 package controllers
 import javax.inject.Inject
-import models.db.UserDAO
 import models.record.User
 import models.ui.MenuGroup
-import models.ui.UserForm._
 import play.api.data._
+import play.api.i18n._
 import play.api.mvc._
+import models.ui.UserForm._
 
-import scala.collection.mutable
-import scala.concurrent.ExecutionContext
+import scala.collection._
 
-class UserController @Inject()(usersDao: UserDAO, cc: ControllerComponents)(implicit executionContext: ExecutionContext)
-  extends AbstractController(cc)
-    with play.api.i18n.I18nSupport
-    {
+class UserControllerOld @Inject()(cc: MessagesControllerComponents)
+  extends MessagesAbstractController(cc) {
 
   private val users = mutable.ArrayBuffer(
     User(None,"Widget 1", "123"),
@@ -24,15 +21,13 @@ class UserController @Inject()(usersDao: UserDAO, cc: ControllerComponents)(impl
 
   private val postUrl = routes.UserController.createUser()
 
-  def listUsers = Action.async { implicit request =>
+  def listUsers = Action { implicit request: MessagesRequest[AnyContent] =>
     // Pass an unpopulated form to the template
-    //Ok(views.html.listUsers(MenuGroup.all,users.toList, form, postUrl))
-    val dbUsers = usersDao.listAll()
-    dbUsers.map(u => Ok(views.html.listUsers(MenuGroup.all,u.toList, form, postUrl)))
+    Ok(views.html.listUsers(MenuGroup.all,users.toList, form, postUrl))
   }
 
   // This will be the action that handles our form post
-  def createUser = Action { implicit request =>
+  def createUser = Action { implicit request: MessagesRequest[AnyContent] =>
     val errorFunction = { formWithErrors: Form[Data] =>
       // This is the bad case, where the form had validation errors.
       // Let's show the user the form again, with the errors highlighted.

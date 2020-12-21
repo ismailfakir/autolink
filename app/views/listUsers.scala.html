@@ -1,5 +1,5 @@
 @import models.ui.UIHelpers._
-@(menuGroups: List[models.ui.MenuGroup], users: List[models.record.User], form: Form[models.ui.UserForm.Data], postUrl: Call)(implicit request: MessagesRequestHeader)
+@(menuGroups: List[models.ui.MenuGroup], users: List[models.record.User], form: Form[models.ui.UserForm.Data], postUrl: Call)(implicit request: RequestHeader, messagesProvider: MessagesProvider)
 <!--extra script-->
 @scripts = {
     @* Flash shows updates to a page *@
@@ -122,12 +122,12 @@
                     <div class="form-group">
                         <!--<label for="username" class="col-form-label">User Name</label>
                         <input type="text" class="form-control" id="username">-->
-                        @helper.inputText(form("username"),'class -> "form-control",'_label -> "User Name")
+                        @helper.inputText(form("username"),Symbol("class") -> "form-control",Symbol("_label") -> "User Name")
                     </div>
                     <div class="form-group">
                         <!--<label for="password" class="col-form-label">Password</label>
                         <input type="text" class="form-control" id="password">-->
-                        @helper.inputText(form("password"),'class -> "form-control",'_label -> "Password")
+                        @helper.inputText(form("password"),Symbol("class") -> "form-control",Symbol("_label") -> "Password")
                     </div>
                 </div>
                 <div class="modal-footer">
