@@ -8,7 +8,6 @@ lazy val root = (project in file("."))
     scalaVersion := "2.13.3",
     libraryDependencies ++= Seq(
       guice,
-      jdbc,
       "org.scalatestplus.play" %% "scalatestplus-play" % "5.0.0" % Test,
       "org.postgresql" % "postgresql" % "42.2.18",
       "com.typesafe.play" %% "play-slick" % "5.0.0",
