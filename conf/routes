@@ -13,6 +13,18 @@ GET     /logs                       controllers.HomeController.logs()
 GET /users  controllers.UserController.listUsers()
 POST /users  controllers.UserController.createUser()
 
+# recepies
+GET    /recipes         controllers.RecipesController.get
+GET    /recipes/:id     controllers.RecipesController.getById(id: java.util.UUID)
+# needed for disable CSFR
++nocsrf
+POST   /recipes         controllers.RecipesController.post
++nocsrf
+PUT    /recipes/:id     controllers.RecipesController.putById(id: java.util.UUID)
++nocsrf
+DELETE /recipes/:id     controllers.RecipesController.deleteById(id: java.util.UUID)
+
+
 # samples
 GET     /blank                      controllers.SampleController.blank()
 GET     /invoice                    controllers.SampleController.invoice()

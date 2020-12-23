@@ -11,9 +11,8 @@ import scala.collection.mutable
 import scala.concurrent.ExecutionContext
 
 class UserController @Inject()(usersDao: UserDAO, cc: ControllerComponents)(implicit executionContext: ExecutionContext)
-  extends AbstractController(cc)
-    with play.api.i18n.I18nSupport
-    {
+  extends AbstractController(cc) with play.api.i18n.I18nSupport
+{
 
   private val users = mutable.ArrayBuffer(
     User(None,"Widget 1", "123"),

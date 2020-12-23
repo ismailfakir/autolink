@@ -31,7 +31,8 @@ object MenuGroup {
     "fas fa-fw fa-table",
     List(
       Menu("Blank Page","/blank","fas fa-fw fa-file"),
-      Menu("Invoice","/invoice","fas fa-fw fa-book")
+      Menu("Invoice","/invoice","fas fa-fw fa-book"),
+      Menu("Recipes","/recipes","fas fa-fw fa-book")
     )
   )
 
