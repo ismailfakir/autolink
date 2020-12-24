@@ -1,7 +1,10 @@
 package controllers
+import java.time.LocalDate
+import java.util.UUID
+
 import javax.inject.Inject
-import models.db.UserDAO
-import models.record.User
+import models.db.{EmployeeDAO, UserDAO}
+import models.record.{Employee, User}
 import models.ui.MenuGroup
 import models.ui.UserForm._
 import play.api.data._
@@ -10,7 +13,7 @@ import play.api.mvc._
 import scala.collection.mutable
 import scala.concurrent.ExecutionContext
 
-class UserController @Inject()(usersDao: UserDAO, cc: ControllerComponents)(implicit executionContext: ExecutionContext)
+class UserController @Inject()(usersDao: UserDAO, employeeDAO: EmployeeDAO, cc: ControllerComponents)(implicit executionContext: ExecutionContext)
   extends AbstractController(cc) with play.api.i18n.I18nSupport
 {
 
@@ -26,6 +29,11 @@ class UserController @Inject()(usersDao: UserDAO, cc: ControllerComponents)(impl
   def listUsers = Action.async { implicit request =>
     // Pass an unpopulated form to the template
     //Ok(views.html.listUsers(MenuGroup.all,users.toList, form, postUrl))
+    val emp = Employee(UUID.randomUUID().toString,"jave", LocalDate.now)
+    employeeDAO.insertData(emp)
+    val mployees = employeeDAO.findAll()
+
+
     val dbUsers = usersDao.listAll()
     dbUsers.map(u => Ok(views.html.listUsers(MenuGroup.all,u.toList, form, postUrl)))
   }

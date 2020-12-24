@@ -11,8 +11,11 @@ lazy val root = (project in file("."))
       "org.scalatestplus.play" %% "scalatestplus-play" % "5.0.0" % Test,
       "org.postgresql" % "postgresql" % "42.2.18",
       "com.typesafe.play" %% "play-slick" % "5.0.0",
-      "com.typesafe.play" %% "play-slick-evolutions" % "5.0.0"
-    ),
+      "com.typesafe.play" %% "play-slick-evolutions" % "5.0.0",
+      "org.mongodb.scala" %% "mongo-scala-driver" % "2.9.0",
+      "org.mongodb" % "bson" % "2.3",
+      "ch.rasc" % "bsoncodec" % "1.0.1"
+    )
   )
 
 
@@ -29,5 +32,3 @@ lazy val root = (project in file("."))
 // libraryDependencies += "org.reactivemongo" %% "reactivemongo" % "1.0.1" % "provided"
 // https://mvnrepository.com/artifact/org.reactivemongo/play2-reactivemongo
 // libraryDependencies += "org.reactivemongo" %% "play2-reactivemongo" % "1.0.1-play28"
-
-

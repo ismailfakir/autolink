@@ -9,4 +9,5 @@ case class User (id: Option[Long], name: String, password: String)
 object JsonFormats {
 
   implicit val userFormat = Json.format[User]
+  implicit val employeeFormat = Json.format[Employee]
 }
