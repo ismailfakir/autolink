@@ -10,8 +10,13 @@ GET     /dashboard                  controllers.HomeController.dashboard()
 GET     /logs                       controllers.HomeController.logs()
 
 # users
-GET /users  controllers.UserController.listUsers()
-POST /users  controllers.UserController.createUser()
+GET     /users                      controllers.UserController.listUsers()
+POST    /users                      controllers.UserController.createUser()
+# javascript route
+#GET     /usersjs                    controllers.UserController.getUserList()
+#GET     /jsr                        controllers.UserController.jsRoutes
+GET     /getmessage                  controllers.JsRoutesController.getBackendMessage()
+GET     /jsr                         controllers.JsRoutesController.jsRoutes
 
 # recepies
 GET    /recipes         controllers.RecipesController.get

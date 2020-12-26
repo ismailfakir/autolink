@@ -1,13 +1,29 @@
 @import models.ui.UIHelpers._
+@import models.ui.UserForm.Roles
+@import helper._
 @(menuGroups: List[models.ui.MenuGroup], users: List[models.record.User], form: Form[models.ui.UserForm.Data], postUrl: Call)(implicit request: RequestHeader, messagesProvider: MessagesProvider)
 <!--extra script-->
 @scripts = {
+
+    <!--sample scripts -->
+    <script>
+        jsRoutes.controllers.JsRoutesController.getBackendMessage().ajax({
+                success: function(result) {
+                    alert("Message: " + result);
+                },
+                failure: function(err) {
+                    alert('There was an error');
+                }
+        });
+    </script>
+
     @* Flash shows updates to a page *@
     @request.flash.data.map{ case (name, value) =>
         <script>
             displayInfo('@value','@name');
         </script>
     }
+
 }
 
 @common.page("User list",scripts)(menuGroups) {
@@ -32,7 +48,7 @@
 <!--page header end-->
 
 <div class="row">
-    <div class="offset-xl-2 col-xl-8 col-lg-12 col-md-12 col-sm-12 col-12">
+    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
         <div class="row">
             <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 m-b-60">
 
@@ -53,13 +69,27 @@
                         <div class="card-body">
                             <table class="table table-bordered table-hover">
                                 <thead>
-                                <tr><th scope="col">Name</th><th scope="col">Password</th><th scope="col"></th></tr>
+                                <tr>
+                                    <th scope="col">Id</th>
+                                    <th scope="col">Name</th>
+                                    <th scope="col">Email</th>
+                                    <!--<th scope="col">Password</th>-->
+                                    <th scope="col">Role</th>
+                                    <th scope="col">Created At</th>
+                                    <th scope="col">Updated At</th>
+                                    <th scope="col"></th>
+                                </tr>
                                 </thead>
                                 <tbody>
                                 @for(u <- users) {
                                     <tr>
+                                        <td scope="col">@u._id</td>
                                         <td scope="col">@u.name</td>
-                                        <td scope="col">@u.password</td>
+                                        <td scope="col">@u.email</td>
+                                       <!-- <td scope="col">@u.password</td>-->
+                                        <td scope="col">@u.role</td>
+                                        <td scope="col">@u.createdAt</td>
+                                        <td scope="col">@u.updatedAt</td>
                                         <td>
 
                                             <button type="button" class="btn btn-outline-primary btn-sm" data-toggle="modal" data-target="#editModal">
@@ -77,24 +107,42 @@
                             </table>
                             <hr/>
 
+                            <!--form start-->
                             @* Global errors are not tied to any particular form field
                             @if(form.hasGlobalErrors) {
                             @form.globalErrors.map { error: FormError =>
-                                    <div>
-                                        @error.key: @error.message
-                                    </div>
-                                }
+                            <div>
+                                @error.key: @error.message
+                            </div>
                             }
-
+                            }
                             @helper.form(postUrl) {
                             @helper.CSRF.formField
 
-                            @helper.inputText(form("username"))
+                            <div class="modal-body">
+                                <div class="form-group">
+                                    @helper.inputText(form("name"),Symbol("class") -> "form-control",Symbol("_label") -> "Name")
+                                </div>
 
-                            @helper.inputText(form("password"))
+                                <div class="form-group">
+                                    @helper.inputText(form("email"),Symbol("class") -> "form-control",Symbol("_label") -> "Email")
+                                </div>
 
-                            <button>Create user</button>
+                                <div class="form-group">
+                                    @helper.inputText(form("password"),Symbol("class") -> "form-control",Symbol("_label") -> "Password")
+                                </div>
+                                <div class="form-group">
+                                    @select(form("role") ,models.ui.UserForm.Roles.values.toSeq.map(role => role.toString -> role.toString),Symbol("class") -> "form-control",Symbol("_label") -> "Role")
+                                </div>
+
+
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-primary">Save</button>
+                            </div>
                             }*@
+                            <!--form end-->
                         </div>
                     </div>
                     </div>
@@ -115,26 +163,42 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <!--<form action="@postUrl" method="post">-->@helper.form(postUrl) {
+            <!--form start-->
+            @* Global errors are not tied to any particular form field *@
+            @if(form.hasGlobalErrors) {
+            @form.globalErrors.map { error: FormError =>
+            <div>
+                @error.key: @error.message
+            </div>
+            }
+            }
+            @helper.form(postUrl) {
                 @helper.CSRF.formField
 
                 <div class="modal-body">
                     <div class="form-group">
-                        <!--<label for="username" class="col-form-label">User Name</label>
-                        <input type="text" class="form-control" id="username">-->
-                        @helper.inputText(form("username"),Symbol("class") -> "form-control",Symbol("_label") -> "User Name")
+                        @helper.inputText(form("name"),Symbol("class") -> "form-control",Symbol("_label") -> "Name")
                     </div>
+
                     <div class="form-group">
-                        <!--<label for="password" class="col-form-label">Password</label>
-                        <input type="text" class="form-control" id="password">-->
+                        @helper.inputText(form("email"),Symbol("class") -> "form-control",Symbol("_label") -> "Email")
+                    </div>
+
+                    <div class="form-group">
                         @helper.inputText(form("password"),Symbol("class") -> "form-control",Symbol("_label") -> "Password")
                     </div>
+                    <div class="form-group">
+                        @select(form("role") ,models.ui.UserForm.Roles.values.toSeq.map(role => role.toString -> role.toString),Symbol("class") -> "form-control",Symbol("_label") -> "Role")
+                    </div>
+
+
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                     <button type="submit" class="btn btn-primary">Save</button>
                 </div>
-            }<!--</form>-->
+            }
+            <!--form end-->
         </div>
     </div>
 </div><!-- Modal add end-->

@@ -1,0 +1,2 @@
+https://pedrorijo.com/blog/play-forms/
+https://aknay.github.io/2018/01/04/javascript-routing-with-play-framework.html

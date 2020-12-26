@@ -6,7 +6,7 @@ import scala.concurrent.duration._
 
 @Singleton
 class HelloTask @Inject()(actorSystem: ActorSystem)(implicit ec: ExecutionContext){
-  actorSystem.scheduler.scheduleAtFixedRate(initialDelay = 1.minutes, interval = 1.minutes) { () =>
+  actorSystem.scheduler.scheduleAtFixedRate(initialDelay = 30.minutes, interval = 30.minutes) { () =>
     //process()
     memoryInfo()
   }

@@ -3,24 +3,23 @@ package models.db
 import javax.inject.{ Inject, Singleton }
 
 import scala.concurrent.{ ExecutionContext, Future }
-import models.record.User
-import models.record.Page
+import models.record.UserOld
 import play.api.db.slick.{ DatabaseConfigProvider, HasDatabaseConfigProvider }
 import slick.jdbc.JdbcProfile
 
 trait UsersComponent { self: HasDatabaseConfigProvider[JdbcProfile] =>
   import profile.api._
 
-  class Users(tag: Tag) extends Table[User](tag, "user") {
+  class Users(tag: Tag) extends Table[UserOld](tag, "user") {
     def id = column[Long]("id", O.PrimaryKey, O.AutoInc)
     def name = column[String]("name")
     def password = column[String]("password")
-    def * = (id.?, name, password) <> (User.tupled ,User.unapply _)
+    def * = (id.?, name, password) <> (UserOld.tupled ,UserOld.unapply _)
   }
 }
 
 @Singleton()
-class UserDAO @Inject() (protected val dbConfigProvider: DatabaseConfigProvider)(implicit executionContext: ExecutionContext)
+class UserDaoOld @Inject() (protected val dbConfigProvider: DatabaseConfigProvider)(implicit executionContext: ExecutionContext)
   extends UsersComponent
     with HasDatabaseConfigProvider[JdbcProfile] {
 
@@ -38,18 +37,18 @@ class UserDAO @Inject() (protected val dbConfigProvider: DatabaseConfigProvider)
   }
 
   /** Insert a new user */
-  def insert(user: User): Future[Unit] =
+  def insert(user: UserOld): Future[Unit] =
     db.run(users += user).map(_ => ())
 
   /** Insert new users */
-  def insert(users: Seq[User]): Future[Unit] =
+  def insert(users: Seq[UserOld]): Future[Unit] =
     db.run(this.users ++= users).map(_ => ())
 
   def count(): Future[Int]=
     db.run(this.users.map(_.id).length.result)
 
   /** Return a page of (Computer,Company) */
-  def listAll(): Future[Seq[User]] = {
+  def listAll(): Future[Seq[UserOld]] = {
     db.run(this.users.result)
   }
 }

@@ -1,21 +1,20 @@
 package bootstrap
 
 import javax.inject.Inject
+import models.db.UserDaoOld
+import models.record.UserOld
 
-import models.db.UserDAO
-import models.record.User
-
-import scala.concurrent.{ Await, ExecutionContext }
 import scala.concurrent.duration.Duration
+import scala.concurrent.{Await, ExecutionContext}
 import scala.util.Try
 
 /** Initial set of data to be imported into the sample application. */
-private[bootstrap] class InitialData @Inject() (usersDao: UserDAO)(implicit executionContext: ExecutionContext) {
+private[bootstrap] class InitialData @Inject() (usersDaoOld: UserDaoOld)(implicit executionContext: ExecutionContext) {
 
   def insert(): Unit = {
     val insertInitialDataFuture = for {
-      count <- usersDao.count() if count == 0
-      _ <- usersDao.insert(InitialData.users)
+      count <- usersDaoOld.count() if count == 0
+      _ <- usersDaoOld.insert(InitialData.users)
     } yield ()
 
     Try(Await.result(insertInitialDataFuture, Duration.Inf))
@@ -26,7 +25,7 @@ private[bootstrap] class InitialData @Inject() (usersDao: UserDAO)(implicit exec
 
 private[bootstrap] object InitialData {
   def users = Seq(
-    User(Option(1L),"ismail","open123"),
-    User(Option(2L),"javed","jfhdkjhgsj")
+    UserOld(Option(1L),"ismail","open123"),
+    UserOld(Option(2L),"javed","jfhdkjhgsj")
   )
 }

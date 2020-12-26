@@ -1,13 +1,25 @@
 package models.record
-import play.api.libs.json._
 
-case class Page[A](items: Seq[A], page: Int, offset: Long, total: Long) {
-  lazy val prev = Option(page - 1).filter(_ >= 0)
-  lazy val next = Option(page + 1).filter(_ => (offset + items.size) < total)
-}
-case class User (id: Option[Long], name: String, password: String)
-object JsonFormats {
 
-  implicit val userFormat = Json.format[User]
-  implicit val employeeFormat = Json.format[Employee]
+import java.time.LocalDateTime
+
+import helpers.utils.DateTimeUtils._
+import helpers.utils.PasswordHash._
+import org.mongodb.scala.bson.ObjectId
+
+case class User (_id: ObjectId, name: String, email: String, password: String, role: String, createdAt: LocalDateTime , updatedAt: LocalDateTime)
+
+object User {
+
+  def apply(name: String, email: String, password: String, role: String): User =
+    new User(
+      new ObjectId(),
+      name,
+      email,
+      createHash(password),
+      role,
+      now(),
+      now()
+    )
 }
+

@@ -1,5 +1,7 @@
 package db
 
+import java.time.ZonedDateTime
+
 import com.mongodb.MongoCredential.createCredential
 import com.mongodb.{MongoCredential, ServerAddress}
 import org.bson.codecs.configuration.CodecRegistry
@@ -10,7 +12,7 @@ import org.bson.codecs.configuration.CodecRegistries
 import org.mongodb.scala.bson.codecs.Macros._
 import org.mongodb.scala.{MongoClient, MongoCollection, MongoDatabase}
 import db.DbQueryCommandListener
-import models.record.Employee
+import models.record.{Employee, User}
 import com.mongodb.connection.ServerSettings
 
 
@@ -18,7 +20,7 @@ object MongoDb extends MongodbConfig {
 
   private val credential: MongoCredential = createCredential(databaseUser, "admin", databaseUserPassword.toCharArray)
 
-  private val registry: CodecRegistry = CodecRegistries.fromProviders(classOf[Employee])
+  private val registry: CodecRegistry = CodecRegistries.fromProviders(classOf[Employee],classOf[User])
 
   val codecRegistry: CodecRegistry =
     CodecRegistries.fromRegistries(registry, MongoClient.DEFAULT_CODEC_REGISTRY)
@@ -35,5 +37,7 @@ object MongoDb extends MongodbConfig {
   val database: MongoDatabase = client.getDatabase(databaseName)
 
   val employees: MongoCollection[Employee] = database.getCollection("employee")
+
+  val users: MongoCollection[User] = database.getCollection("user")
 
 }
