@@ -1,0 +1,26 @@
+@(headerLeft: String, headerRight: String, headerContentLeft: Html = Html(""), headerContentRight: Html = Html(""))(contentLeft: Html = Html(""))(contentRight: Html = Html(""))
+<div class="row">
+    <div class="ccol-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
+        <div class="card">
+            <div class="card-header p-3">
+                <h3 class="pt-2 d-inline-block text-primary">@headerLeft</h3>
+                <div class="float-right">
+                    @headerContentLeft
+                </div>
+            </div>
+            <div class="card-body">@contentLeft</div>
+        </div>
+    </div>
+
+    <div class="ccol-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
+        <div class="card">
+            <div class="card-header p-3">
+                <h3 class="pt-2 d-inline-block text-primary">@headerRight</h3>
+                <div class="float-right">
+                    @headerContentRight
+                </div>
+            </div>
+            <div class="card-body">@contentRight</div>
+        </div>
+    </div>
+</div>

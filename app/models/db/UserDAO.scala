@@ -16,6 +16,10 @@ import scala.concurrent.Future
 class UserDAO() extends Logging{
   private val userDoc: MongoCollection[User] = MongoDb.users
 
+  def count() = {
+    userDoc.countDocuments().toFuture()
+  }
+
   def findAll(): Future[Seq[User]] = {
     userDoc.find().toFuture()
   }
@@ -28,6 +32,11 @@ class UserDAO() extends Logging{
     logger.info(s"inserting new User data:${user}")
     userDoc.insertOne(user)
       .head()
+  }
+
+  def insertData(users: Seq[User]): Future[Completed] = {
+    logger.info(s"inserting new User data:${users}")
+    userDoc.insertMany(users).toFuture()
   }
 
   def delete(id: ObjectId): Future[DeleteResult] = {

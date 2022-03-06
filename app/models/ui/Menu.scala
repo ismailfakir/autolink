@@ -11,6 +11,7 @@ object MenuGroup {
     "fas fa-fw fa-server",
     List(
       Menu("Users","/users","fas fa-fw fa-users"),
+      Menu("connections","/connections","fas fa-arrow-circle-up"),
       Menu("Configuration","/dashboard","fas fa-fw fa-cogs"),
       Menu("Tools","/dashboard","fas fa-fw fa-wrench")
     )
@@ -31,6 +32,9 @@ object MenuGroup {
     "fas fa-fw fa-table",
     List(
       Menu("Blank Page","/blank","fas fa-fw fa-file"),
+      //Menu("Form","/sample/form","fas fa-fw fa-file"),
+      Menu("Example Page","/example","fas fa-fw fa-file"),
+      Menu("Vue Example Page","/vueexample","fas fa-fw fa-file"),
       Menu("Invoice","/invoice","fas fa-fw fa-book")
     )
   )

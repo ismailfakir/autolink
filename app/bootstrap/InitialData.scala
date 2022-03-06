@@ -1,31 +1,44 @@
 package bootstrap
 
 import javax.inject.Inject
-import models.db.UserDaoOld
-import models.record.UserOld
+import models.db.{ConnectionDAO, UserDAO}
+import models.record.{Connection, User}
+import org.mongodb.scala.bson.collection.immutable.Document
 
-import scala.concurrent.duration.Duration
+import scala.concurrent.duration.{Duration, DurationInt}
 import scala.concurrent.{Await, ExecutionContext}
 import scala.util.Try
 
 /** Initial set of data to be imported into the sample application. */
-private[bootstrap] class InitialData @Inject() (usersDaoOld: UserDaoOld)(implicit executionContext: ExecutionContext) {
+private[bootstrap] class InitialData @Inject() (usersDao: UserDAO, connectionDAO: ConnectionDAO)(implicit executionContext: ExecutionContext) {
 
-  def insert(): Unit = {
+  def insertUsers(): Unit = {
     val insertInitialDataFuture = for {
-      count <- usersDaoOld.count() if count == 0
-      _ <- usersDaoOld.insert(InitialData.users)
+      count <- usersDao.count() if count == 0
+      _ <- usersDao.insertData(InitialData.users)
     } yield ()
 
-    Try(Await.result(insertInitialDataFuture, Duration.Inf))
+    Try(Await.result(insertInitialDataFuture, 30.seconds))
   }
 
-  insert()
+  def insertConnections(): Unit = {
+    val insertInitialDataFuture = for {
+      count <- connectionDAO.count() if count == 0
+      _ <- connectionDAO.insertData(InitialData.connections)
+    } yield ()
+
+    Try(Await.result(insertInitialDataFuture, 30.seconds))
+  }
+
+  insertUsers()
+  insertConnections()
 }
 
 private[bootstrap] object InitialData {
   def users = Seq(
-    UserOld(Option(1L),"ismail","open123"),
-    UserOld(Option(2L),"javed","jfhdkjhgsj")
+    User("ismail","open123","ismail7043@yahoo.com","admin")
+  )
+  def connections = Seq(
+    Connection("Ismailsson AB","woo")
   )
 }

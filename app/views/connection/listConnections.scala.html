@@ -1,0 +1,94 @@
+@import models.ui.UIHelpers._
+@import helper._
+@import views.html.component._
+@(menuGroups: List[models.ui.MenuGroup], connections: List[models.record.Connection])(implicit request: RequestHeader, messagesProvider: MessagesProvider)
+
+<!--extra script-->
+@scripts = {
+
+    <!--sample scripts -->
+    <script>
+
+    </script>
+
+    <script type="text/javascript" src="@routes.Assets.versioned("javascripts/listconnections.js")" type="text/javascript"></script>
+
+    @* Flash shows updates to a page *@
+    @request.flash.data.map { case (name, value) =>
+        <script>
+            displayInfo('@value','@name');
+        </script>
+    }
+
+}
+
+@common.page("Connections", scripts)(menuGroups) {
+    <!--page header start-->
+    @common.page_header(
+        pageTitle = "Connections",
+        breadcrumbParent = "Dashboard",
+        breadcrumbParentLink = "/dashboard",
+        breadcrumb = "Connections"
+    )
+    <!--page header end-->
+
+<div class="row">
+    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+        <div class="row">
+            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 m-b-60">
+
+                <div class="row">
+                    <div class="col-xl-12 col-lg-6 col-md-12 col-sm-12 col-12">
+                        <div class="card">
+                            <div class="card-header p-3">
+                                <h3 class="pt-2 d-inline-block text-primary">Connections</h3>
+
+                                <div class="float-right">
+
+                                    <a id="connection-add1" href="/connection/add" class="btn btn-primary" tabindex="-1" role="button">Add</a>
+
+                                </div>
+                            </div>
+
+                            <div class="card-body">
+                                <table class="table table-bordered table-hover">
+                                    <thead>
+                                    <tr>
+                                        <th scope="col">Id</th>
+                                        <th scope="col">Name</th>
+                                        <th scope="col">Config</th>
+                                        <th scope="col">Created At</th>
+                                        <th scope="col">Updated At</th>
+                                        <th scope="col"></th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    @for(u <- connections) {
+                                    <tr>
+                                        <td scope="col">@u._id</td>
+                                        <td scope="col">@u.name</td>
+                                        <td scope="col">
+                                            <pre id="json"><code><textarea name="" id="connection-config" cols="50" rows="2">@u.config.toJson</textarea></code></pre>
+                                        </td>
+                                        <td scope="col">@u.createdAt</td>
+                                        <td scope="col">@u.updatedAt</td>
+                                        <td>
+                                            <a href="/connections/@u._id" class="btn btn-outline-primary btn-sm"> <i class="fas fa-edit"></i></a>
+                                        </td>
+                                    </tr>
+                                    }
+                                    </tbody>
+                                </table>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+}

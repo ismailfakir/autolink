@@ -14,9 +14,24 @@ lazy val root = (project in file("."))
       "com.typesafe.play" %% "play-slick-evolutions" % "5.0.0",
       "org.mongodb.scala" %% "mongo-scala-driver" % "2.9.0",
       "org.mongodb" % "bson" % "2.3",
-      "ch.rasc" % "bsoncodec" % "1.0.1"
-    )
+      "ch.rasc" % "bsoncodec" % "1.0.1",
+      "io.github.ismailfakir" % "scala-common-lib_2.13" % "0.1.7"
+    ),
+    resolvers +=
+      "Sonatype OSS Snapshots" at "https://oss.sonatype.org/content/repositories/snapshots"
   )
+
+Compile / PB.targets := Seq(
+  scalapb.gen() -> (Compile / sourceManaged).value / "scalapb"
+)
+
+// (optional) If you need scalapb/scalapb.proto or anything from
+// google/protobuf/*.proto
+libraryDependencies ++= Seq(
+  "com.thesamet.scalapb" %% "scalapb-runtime" % scalapb.compiler.Version.scalapbVersion % "protobuf"
+)
+
+libraryDependencies += "com.thesamet.scalapb" %% "scalapb-json4s" % "0.11.1"
 
 
 

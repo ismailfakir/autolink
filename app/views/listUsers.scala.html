@@ -1,21 +1,17 @@
 @import models.ui.UIHelpers._
 @import models.ui.UserForm.Roles
 @import helper._
-@(menuGroups: List[models.ui.MenuGroup], users: List[models.record.User], form: Form[models.ui.UserForm.Data], postUrl: Call)(implicit request: RequestHeader, messagesProvider: MessagesProvider)
+@import views.html.component._
+@(menuGroups: List[models.ui.MenuGroup], users: List[models.record.User], form: Form[models.ui.UserForm.Data],form1: Form[models.ui.UserForm.Data1], postUrl: Call, putUrl: Call)(implicit request: RequestHeader, messagesProvider: MessagesProvider)
 <!--extra script-->
 @scripts = {
 
     <!--sample scripts -->
     <script>
-        jsRoutes.controllers.JsRoutesController.getBackendMessage().ajax({
-                success: function(result) {
-                    alert("Message: " + result);
-                },
-                failure: function(err) {
-                    alert('There was an error');
-                }
-        });
+
     </script>
+
+    <script type="text/javascript" src="@routes.Assets.versioned("javascripts/listusers.js")" type="text/javascript"></script>
 
     @* Flash shows updates to a page *@
     @request.flash.data.map{ case (name, value) =>
@@ -36,8 +32,8 @@
             <div class="page-breadcrumb">
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="#" class="breadcrumb-link">User</a></li>
-                        <li class="breadcrumb-item active" aria-current="page">Create User</li>
+                        <li class="breadcrumb-item"><a href="/dashboard" class="breadcrumb-link">Dashboard</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Users</li>
                     </ol>
                 </nav>
             </div>
@@ -60,7 +56,7 @@
 
                             <div class="float-right">
                                 <!-- Button trigger modal -->
-                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addModal">
+                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#add-user-modal">
                                     Add User
                                 </button>
                             </div>
@@ -92,11 +88,22 @@
                                         <td scope="col">@u.updatedAt</td>
                                         <td>
 
-                                            <button type="button" class="btn btn-outline-primary btn-sm" data-toggle="modal" data-target="#editModal">
+                                            <button type="button" class="btn btn-outline-primary btn-sm" data-toggle="modal"
+                                                    data-target="#edit-user-modal"
+                                                    data-id="@u._id"
+                                                    data-name="@u.name"
+                                                    data-email="@u.email"
+                                                    data-password="@u.password"
+                                                    data-role="@u.role"
+                                            >
                                                 <i class="fas fa-edit"></i>
                                             </button>
 
-                                            <button type="button" class="btn btn-outline-secondary btn-sm" data-toggle="modal" data-target="#deleteModal">
+                                            <button type="button" class="btn btn-outline-secondary btn-sm" data-toggle="modal"
+                                                    data-target="#delete-user-modal"
+                                                    data-id="@u._id"
+                                                    data-name="@u.name"
+                                            >
                                                 <i class="fas fa-trash"></i>
                                             </button>
 
@@ -153,8 +160,9 @@
     </div>
 </div>
 
-<!-- Modal add-->
-<div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<!--------------------------------------- Modal add user start -------------------------------------------------------->
+<!--------------------------------------------------------------------------------------------------------------------->
+<div class="modal fade" id="add-user-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -202,6 +210,92 @@
         </div>
     </div>
 </div><!-- Modal add end-->
+<!--------------------------------------- Modal add user end ---------------------------------------------------------->
+<!--------------------------------------------------------------------------------------------------------------------->
+
+<!--------------------------------------- Modal delete user start ----------------------------------------------------->
+<!--------------------------------------------------------------------------------------------------------------------->
+<div class="modal fade" id="delete-user-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteModalLabel">Delete User</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                delete user?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <a id="deleteuser-id" href="/deleteuser/id" class="btn btn-primary" tabindex="-1" role="button">Delete</a>
+            </div>
+        </div>
+    </div>
+</div>
+<!--------------------------------------- Modal delete user end ------------------------------------------------------->
+<!--------------------------------------------------------------------------------------------------------------------->
+
+<!--------------------------------------- Modal edit user start -------------------------------------------------------->
+<!--------------------------------------------------------------------------------------------------------------------->
+<div class="modal fade" id="edit-user-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editModalLabel">Edit User</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <!--form start-->
+            @* Global errors are not tied to any particular form field *@
+            @if(form1.hasGlobalErrors) {
+            @form1.globalErrors.map { error: FormError =>
+            <div>
+                @error.key: @error.message
+            </div>
+            }
+            }
+            @helper.form(putUrl) {
+            @helper.CSRF.formField
+
+            <div class="modal-body">
+
+
+
+                <div class="form-group">
+                    @helper.inputText(form1("id"),Symbol("id") -> "txt-user-id-edit",Symbol("class") -> "form-control",Symbol("_label") -> "Id",Symbol("disabled") ->"")
+                </div>
+                <div class="form-group">
+                    @helper.inputText(form1("name"),Symbol("id") -> "txt-user-name-edit",Symbol("class") -> "form-control",Symbol("_label") -> "Name")
+                </div>
+
+                <div class="form-group">
+                    @helper.inputText(form1("email"),Symbol("id") -> "txt-user-email-edit",Symbol("class") -> "form-control",Symbol("_label") -> "Email")
+                </div>
+
+                <div class="form-group">
+                    @helper.inputPassword(form1("password"),Symbol("id") -> "txt-user-password-edit",Symbol("class") -> "form-control",Symbol("_label") -> "Password")
+                </div>
+                <div class="form-group">
+                    @select(form1("role") ,models.ui.UserForm.Roles.values.toSeq.map(role => role.toString -> role.toString),Symbol("class") -> "form-control",Symbol("_label") -> "Role",Symbol("id") -> "select-user-role-edit")
+                </div>
+
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary">Save</button>
+                <!--<a id="edituser-id" href="/edituser/id" class="btn btn-primary" tabindex="-1" role="button">Save</a>-->
+            </div>
+            }
+            <!--form end-->
+        </div>
+    </div>
+</div><!-- Modal add end-->
+<!--------------------------------------- Modal edit user end --------------------------------------------------------->
+<!--------------------------------------------------------------------------------------------------------------------->
 
 
 }

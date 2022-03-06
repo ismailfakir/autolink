@@ -12,7 +12,7 @@ import org.bson.codecs.configuration.CodecRegistries
 import org.mongodb.scala.bson.codecs.Macros._
 import org.mongodb.scala.{MongoClient, MongoCollection, MongoDatabase}
 import db.DbQueryCommandListener
-import models.record.{Employee, User}
+import models.record.{Employee, User, Connection}
 import com.mongodb.connection.ServerSettings
 
 
@@ -20,7 +20,7 @@ object MongoDb extends MongodbConfig {
 
   private val credential: MongoCredential = createCredential(databaseUser, "admin", databaseUserPassword.toCharArray)
 
-  private val registry: CodecRegistry = CodecRegistries.fromProviders(classOf[Employee],classOf[User])
+  private val registry: CodecRegistry = CodecRegistries.fromProviders(classOf[Employee],classOf[User], classOf[Connection])
 
   val codecRegistry: CodecRegistry =
     CodecRegistries.fromRegistries(registry, MongoClient.DEFAULT_CODEC_REGISTRY)
@@ -39,5 +39,6 @@ object MongoDb extends MongodbConfig {
   val employees: MongoCollection[Employee] = database.getCollection("employee")
 
   val users: MongoCollection[User] = database.getCollection("user")
+  val connections: MongoCollection[Connection] = database.getCollection("connection")
 
 }

@@ -12,6 +12,22 @@ GET     /logs                       controllers.HomeController.logs()
 # users
 GET     /users                      controllers.UserController.listUsers()
 POST    /users                      controllers.UserController.createUser()
+POST    /editUser                   controllers.UserController.editUser()
+
+GET     /deleteuser/:id             controllers.UserController.deleteUser(id)
+
+# connections
+GET     /connections                controllers.ConnectionController.listConnections()
+GET     /connection/add             controllers.ConnectionController.addConnection()
+POST    /connections                controllers.ConnectionController.saveConnection()
+
+# edit connections
+GET     /connections/:id            controllers.ConnectionController.editConnection(id: String)
+POST    /connections/:id            controllers.ConnectionController.updateConnection(id: String)
+
+# Delete a connection
+POST    /connections/:id/delete       controllers.ConnectionController.deleteConnection(id:String)
+
 # javascript route
 #GET     /usersjs                    controllers.UserController.getUserList()
 #GET     /jsr                        controllers.UserController.jsRoutes
@@ -32,10 +48,12 @@ DELETE /recipes/:id     controllers.RecipesController.deleteById(id: java.util.U
 
 # samples
 GET     /blank                      controllers.SampleController.blank()
+GET     /example                      controllers.SampleController.example()
+GET     /vueexample                      controllers.SampleController.vueExample()
 GET     /invoice                    controllers.SampleController.invoice()
 
 # sample pages from templates
-# GET /sample/blank  controllers.Assets.at(path="/public", file="pages/blank-page.html")
+#GET /sample/form  controllers.Assets.at(path="/public", file="pages/form-elements.html")
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)

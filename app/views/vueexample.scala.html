@@ -1,0 +1,154 @@
+@(menuGroups: List[models.ui.MenuGroup],params: play.api.libs.json.JsValue)
+
+@scripts = {
+
+<!--sample scripts -->
+<script type="text/javascript" src="@routes.Assets.versioned("javascripts/vueexample.js")" type="text/javascript"></script>
+<script>
+
+</script>
+
+}
+
+@params1 = { @params.toString }
+
+@common.page("vutify example",scripts)(menuGroups) {
+
+<div id="app" params=@params1>
+    <v-app>
+        <v-main>
+            <v-container>
+
+                <template>
+                    <v-form
+                            ref="form"
+                            v-model="valid"
+                            lazy-validation
+                    >
+                        <v-text-field
+                                v-model="params.name"
+                                :counter="10"
+                                :rules="nameRules"
+                                label="Name"
+                                required
+                        ></v-text-field>
+                        <v-text-field
+                                v-model="params.price"
+                                :counter="10"
+                                :rules="nameRules"
+                                label="Price"
+                                required
+                        ></v-text-field>
+                        <v-btn
+                                :disabled="!valid"
+                                color="success"
+                                class="mr-4"
+                                v-on:click="validate"
+                        >
+                            Validate
+                        </v-btn>
+
+                        <v-btn
+                                color="error"
+                                class="mr-4"
+                                v-on:click="reset"
+                        >
+                            Reset Form
+                        </v-btn>
+
+                        <v-btn
+                                color="warning"
+                                v-on:click="resetValidation"
+                        >
+                            Reset Validation
+                        </v-btn>
+                    </v-form>
+                </template>
+
+                <template>
+                    <div class="text-center">
+                        <v-btn
+                                class="mx-2"
+                                fab
+                                dark
+                                small
+                                color="primary"
+                        >
+                            <v-icon dark>
+                                mdi-minus
+                            </v-icon>
+                        </v-btn>
+
+                        <v-btn
+                                class="mx-2"
+                                fab
+                                dark
+                                small
+                                color="pink"
+                        >
+                            <v-icon dark>
+                                mdi-heart
+                            </v-icon>
+                        </v-btn>
+
+                        <v-btn
+                                class="mx-2"
+                                fab
+                                dark
+                                color="indigo"
+                        >
+                            <v-icon dark>
+                                mdi-plus
+                            </v-icon>
+                        </v-btn>
+
+                        <v-btn
+                                class="mx-2"
+                                fab
+                                dark
+                                color="teal"
+                        >
+                            <v-icon dark>
+                                mdi-format-list-bulleted-square
+                            </v-icon>
+                        </v-btn>
+
+                        <v-btn
+                                class="mx-2"
+                                fab
+                                dark
+                                large
+                                color="cyan"
+                        >
+                            <v-icon dark>
+                                mdi-pencil
+                            </v-icon>
+                        </v-btn>
+
+                        <v-btn
+                                class="mx-2"
+                                fab
+                                dark
+                                large
+                                color="purple"
+                        >
+                            <v-icon dark>
+                                mdi-android
+                            </v-icon>
+                        </v-btn>
+                    </div>
+                </template>
+
+            </v-container>
+        </v-main>
+    </v-app>
+</div>
+
+
+</div>
+
+<script>
+
+</script>
+}
+
