@@ -1,6 +1,6 @@
-@(sourceVersion: String)
+@(menuGroups: List[models.ui.MenuGroup], gitBranch: String, commitHash: String)
 
-@main("Welcome to Play") {
+@common.page("Blank",isLoggedIn = false)(menuGroups) {
   <div class="container">
     <div class="row justify-content-md-center">
       <div class="jumbotron">
@@ -31,7 +31,8 @@
 
       </br>
       
-      <span class="badge badge-warning">Source Version:</span><span class="badge badge-pill badge-success">@sourceVersion</span>
+      <span class="badge badge-warning">Env:</span><span class="badge badge-pill badge-success">@gitBranch</span>
+      <span class="badge badge-warning">Source Version:</span><span class="badge badge-pill badge-success">@commitHash</span>
 
       </div>
     </div>

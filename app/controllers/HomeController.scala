@@ -4,7 +4,10 @@ import javax.inject._
 import models.db.SampleData
 import models.ui.MenuGroup
 import play.api._
+import play.api.libs.json.{JsObject, JsValue, Json}
 import play.api.mvc._
+
+import scala.sys.process.Process
 
 /**
  * This controller creates an `Action` to handle HTTP requests to the
@@ -21,13 +24,20 @@ class HomeController @Inject()(val config: Configuration, val c: ControllerCompo
    * a path of `/`.
    */
   def index() = Action { implicit request: Request[AnyContent] =>
-    val sourceVersion: String = config.get[String]("git.source.versions")
-    Ok(views.html.index(sourceVersion))
+    //val sourceVersion: String = config.get[String]("git.source.versions")
+    //val sourceVersion: String = "ls -al" !!
+    val sourceVersion = Process(Seq("git", "rev-parse", "HEAD")).!!.trim
+    val gitBranch = Process(Seq("git", "branch")).!!.trim
+    Ok(views.html.index(MenuGroup.none,gitBranch,sourceVersion))
     //Ok(views.html.dashboard(MenuGroup.all))
   }
 
   def login() = Action { implicit request: Request[AnyContent] =>
-    Ok(views.html.login())
+    Ok(
+      views.html.loginvue(
+        MenuGroup.none,serverInfo()
+      )
+    )
   }
 
   def logs() = Action { implicit request: Request[AnyContent] =>
@@ -37,5 +47,14 @@ class HomeController @Inject()(val config: Configuration, val c: ControllerCompo
   def dashboard() = Action { implicit request: Request[AnyContent] =>
 
     Ok(views.html.dashboard(MenuGroup.all))
+  }
+
+  def serverInfo() = {
+    val commitHash = Process(Seq("git", "rev-parse", "HEAD")).!!.trim
+    val gitBranch = Process(Seq("git", "branch")).!!.trim
+    Json.obj(
+      "branch" -> gitBranch.replace("*","").trim,
+      "commitHash" -> commitHash
+    )
   }
 }

@@ -15,6 +15,8 @@ object JsonFormats {
 
   implicit val userFormat = Json.format[User]
   implicit val connectionFormat = Json.format[Connection]
+  implicit val connectionsRead: Reads[Seq[Connection]] = Reads.seq(connectionFormat)
+  implicit val connectionsWrite: Writes[Seq[Connection]] = Writes.seq(connectionFormat)
   implicit val userOldFormat = Json.format[UserOld]
   implicit val employeeFormat = Json.format[Employee]
 }
@@ -27,7 +29,7 @@ object DocumentFormatJsonMacro extends Format[Document] {
     val doc = Document(str)
     JsSuccess(doc)
   }
-  def writes(document: Document) = JsString(document.toJson())
+  def writes(document: Document) = Json.parse(document.toJson())
 }
 
 /* LocalDateTime format*/

@@ -40,5 +40,6 @@ object MenuGroup {
   )
 
   val all = List(dashboard,blank,sample)
+  val none = List.empty[MenuGroup]
 
 }

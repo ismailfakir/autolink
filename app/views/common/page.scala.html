@@ -5,7 +5,7 @@
 * object to insert into the body of the page.
 *@
 
-@(title: String,scripts: Html = Html(""))(menuGroups: List[models.ui.MenuGroup])(content: Html)
+@(title: String,scripts: Html = Html(""),isLoggedIn: Boolean = true)(menuGroups: List[models.ui.MenuGroup])(content: Html)
 
 @template(title,scripts) {
 
@@ -17,7 +17,7 @@
     <!-- navbar -->
     <!-- ============================================================== -->
     <div class="dashboard-header">
-        @header()
+        @header(isLoggedIn)
     </div>
     <!-- ============================================================== -->
     <!-- end navbar -->

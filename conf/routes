@@ -32,6 +32,7 @@ POST    /connections/:id/delete       controllers.ConnectionController.deleteCon
 #GET     /usersjs                    controllers.UserController.getUserList()
 #GET     /jsr                        controllers.UserController.jsRoutes
 GET     /getmessage                  controllers.JsRoutesController.getBackendMessage()
+GET     /listconnections             controllers.JsRoutesController.getConnections()
 GET     /jsr                         controllers.JsRoutesController.jsRoutes
 
 # recepies
