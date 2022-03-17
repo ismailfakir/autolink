@@ -15,7 +15,7 @@ import scala.util.Success
 
 @Singleton
 class HelloTask @Inject()(actorSystem: ActorSystem)(implicit ec: ExecutionContext){
-  actorSystem.scheduler.scheduleAtFixedRate(initialDelay = 1.minutes, interval = 1.minutes) { () =>
+  actorSystem.scheduler.scheduleAtFixedRate(initialDelay = 100.minutes, interval = 100.minutes) { () =>
     //process()
     memoryInfo()
   }

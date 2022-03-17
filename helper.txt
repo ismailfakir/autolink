@@ -1,3 +1,4 @@
 https://pedrorijo.com/blog/play-forms/
 https://aknay.github.io/2018/01/04/javascript-routing-with-play-framework.html
 https://github.com/ics-software-engineering/play-example-form/blob/master/app/views/bootstrap3/text.scala.html
+https://github.com/pedrorijo91/play-auth-example

@@ -13,6 +13,17 @@
     </encoder>
   </appender>
 
+  <appender name="JSON" class="ch.qos.logback.core.FileAppender">
+    <file>${application.home:-.}/logs/application.json</file>
+    <encoder class="net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder">
+      <providers>
+        <timestamp/>
+        <message/>
+        <logstashMarkers/>
+      </providers>
+    </encoder>
+  </appender>
+
   <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
     <withJansi>true</withJansi>
     <encoder>
@@ -31,12 +42,17 @@
     <appender-ref ref="STDOUT" />
   </appender>
 
-  <logger name="play" level="INFO" />
-  <logger name="application" level="DEBUG" />
+  <appender name="ASYNCJSON" class="ch.qos.logback.classic.AsyncAppender">
+    <appender-ref ref="JSON" />
+  </appender>
 
-  <root level="WARN">
+  <logger name="play" level="INFO" />
+  <logger name="application" level="INFO" />
+
+  <root level="INFO">
     <appender-ref ref="ASYNCFILE" />
     <appender-ref ref="ASYNCSTDOUT" />
+    <appender-ref ref="ASYNCJSON" />
   </root>
 
 </configuration>

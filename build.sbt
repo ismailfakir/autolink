@@ -33,7 +33,12 @@ libraryDependencies ++= Seq(
 
 libraryDependencies += "com.thesamet.scalapb" %% "scalapb-json4s" % "0.11.1"
 
-
+/* sbt task to startup mongodb*/
+lazy val rundb = taskKey[Unit]("Execute the shell script")
+rundb := {
+  import scala.sys.process._
+  Seq("bash", "-c","./startdb.sh") !
+}
 
 // libraryDependencies += guice
 // libraryDependencies += "org.scalatestplus.play" %% "scalatestplus-play" % "5.0.0" % Test

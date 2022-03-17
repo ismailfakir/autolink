@@ -18,9 +18,11 @@ import scala.concurrent.duration.DurationInt
 import scala.concurrent.{Await, ExecutionContext, Future}
 import play.api.libs.json._
 
-class ConnectionController @Inject()(connectionDao: ConnectionDAO, cc: ControllerComponents)(implicit executionContext: ExecutionContext)
-  extends AbstractController(cc) with play.api.i18n.I18nSupport
+class ConnectionController @Inject()(val usersDao: UserDAO,connectionDao: ConnectionDAO, cc: ControllerComponents)(implicit executionContext: ExecutionContext)
+  extends AbstractController(cc) with play.api.i18n.I18nSupport with SessionHelper
 {
+  override val usersDaoImpl = usersDao
+
   private val logger = play.api.Logger(this.getClass)
 
   private val postUrl = routes.ConnectionController.saveConnection()
@@ -41,7 +43,7 @@ class ConnectionController @Inject()(connectionDao: ConnectionDAO, cc: Controlle
 
     val connections = connectionDao.findAll()
     // views/connection/listConnections.scala.html
-    connections.map(c => Ok(views.html.connection.listConnections(MenuGroup.all,c.toList)))
+    connections.map(c => withUserSession(u => Ok(views.html.connection.listConnections(MenuGroup.all,c.toList))))
   }
 
   /**
@@ -49,7 +51,7 @@ class ConnectionController @Inject()(connectionDao: ConnectionDAO, cc: Controlle
    */
 
   def addConnection() = Action { implicit request: Request[AnyContent] =>
-    Ok(views.html.connection.addConnection(MenuGroup.all,form,postUrl))
+    withUserSession(u =>Ok(views.html.connection.addConnection(MenuGroup.all,form,postUrl)))
   }
 
   // This will be the action that handles our form post
@@ -86,7 +88,7 @@ class ConnectionController @Inject()(connectionDao: ConnectionDAO, cc: Controlle
 
         val conForm = ConnectionForm.Data(con.name,con.config.toJson())
 
-        Ok(views.html.connection.editConnection(MenuGroup.all,id,form.fill(conForm),putUrl))
+        withUserSession(u =>Ok(views.html.connection.editConnection(MenuGroup.all,id,form.fill(conForm),putUrl)))
 
       case None => NotFound
     }

@@ -10,7 +10,10 @@ import scala.concurrent.{Await, ExecutionContext}
 import scala.util.Try
 
 /** Initial set of data to be imported into the sample application. */
-private[bootstrap] class InitialData @Inject() (usersDao: UserDAO, connectionDAO: ConnectionDAO)(implicit executionContext: ExecutionContext) {
+private[bootstrap] class InitialData @Inject() (
+    usersDao: UserDAO,
+    connectionDAO: ConnectionDAO
+)(implicit executionContext: ExecutionContext) {
 
   def insertUsers(): Unit = {
     val insertInitialDataFuture = for {
@@ -35,10 +38,12 @@ private[bootstrap] class InitialData @Inject() (usersDao: UserDAO, connectionDAO
 }
 
 private[bootstrap] object InitialData {
-  def users = Seq(
-    User("ismail","open123","ismail7043@yahoo.com","admin")
-  )
-  def connections = Seq(
-    Connection("Ismailsson AB","woo")
-  )
+  def users =
+    Seq(
+      User("ismail", "open123", "ismail7043@yahoo.com", "admin")
+    )
+  def connections =
+    Seq(
+      Connection("Ismailsson AB", "woo")
+    )
 }

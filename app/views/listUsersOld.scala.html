@@ -1,5 +1,5 @@
 @import models.ui.UIHelpers._
-@(menuGroups: List[models.ui.MenuGroup], users: List[models.record.UserOld], form: Form[models.ui.UserFormOld.Data], postUrl: Call)(implicit request: RequestHeader, messagesProvider: MessagesProvider)
+@(menuGroups: List[models.ui.MenuGroup], users: List[models.record.UserOld], form: Form[models.ui.LoginForm.Data], postUrl: Call)(implicit request: RequestHeader, messagesProvider: MessagesProvider)
 <!--extra script-->
 @scripts = {
 @* Flash shows updates to a page *@

@@ -5,7 +5,7 @@ import models.record.User
 import org.mongodb.scala.{Completed, MongoCollection}
 import org.mongodb.scala.bson.ObjectId
 import org.mongodb.scala.bson.conversions.Bson
-import org.mongodb.scala.model.Filters.equal
+import org.mongodb.scala.model.Filters.{and, equal}
 import org.mongodb.scala.model.FindOneAndUpdateOptions
 import org.mongodb.scala.model.Updates.{combine, set}
 import org.mongodb.scala.result.DeleteResult
@@ -27,6 +27,19 @@ class UserDAO() extends Logging{
   def findById(id: ObjectId): Future[Option[User]] = {
     userDoc.find(equal("_id", id)).headOption()
   }
+
+  def findByEmail(email: String): Future[Option[User]] = {
+    userDoc.find(equal("email", email)).headOption()
+  }
+
+  /*def findByUserNameAndPassword(userName: String, password: String): Future[Option[User]] = {
+    println(s"$password")
+    val query = and(
+      equal("name",userName),
+      equal("password",password)
+    )
+    userDoc.find(query).headOption()
+  }*/
 
   def insertData(user: User): Future[Completed] = {
     logger.info(s"inserting new User data:${user}")

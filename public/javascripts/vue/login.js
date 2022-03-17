@@ -1,3 +1,14 @@
+Vue.component("env-div", {
+  props: ['env'],
+  template: `
+    <v-divider class="mx-4"></v-divider>
+    <div>
+      <p> branch </p>
+      <p> {{env.commitHash}} </p>
+    </div>
+    `
+});
+
 var app = new Vue({
         el: '#app-login',
         vuetify: new Vuetify(),
@@ -8,34 +19,23 @@ var app = new Vue({
             }
         },
         data: {
+          alert1: false,
+          loginError: '',
           valid: true,
           success: false,
           message: '',
           active: false,
-          nameRules: [
-                  v => !!v || 'Name is required',
-                  v => (v && v.length <= 10) || 'Name must be less than 10 characters',
-                ],
-          email: '',
+          email: 'admin@autolink.io',
           emailRules: [
                 v => !!v || 'E-mail is required',
                 v => /.+@.+\..+/.test(v) || 'E-mail must be valid',
               ],
-              select: null,
-              items: [
-                'Item 1',
-                'Item 2',
-                'Item 3',
-                'Item 4',
-              ],
-          checkbox: false,
           show1: false,
-          password: 'Password',
-          rules: {
-                    required: value => !!value || 'Required.',
-                    min: v => v.length >= 8 || 'Min 8 characters',
-                    emailMatch: () => (`The email and password you entered don't match`),
-                  },
+          password: 'admin',
+          passwordRules: [
+                  v => !!v || 'Password is required'
+                ],
+          env11: {branch: 'branch', commitHash: 'commit hash'},
         },
         beforeMount: function () {
           this.params = JSON.parse(this.$el.attributes.params.value);
@@ -47,8 +47,33 @@ var app = new Vue({
               reset () {
                 this.$refs.form.reset()
               },
-              resetValidation () {
-                this.$refs.form.resetValidation()
-              },
+              login() {
+
+                nativeForm.submit()
+
+                /*let self = this;
+
+                const json = JSON.stringify({ email: self.email, password: self.password });
+
+                axios.post('/login', json, {
+                   headers: {
+                     'Content-Type': 'application/json'
+                   }
+                 }).then(function (response) {
+
+                    self.loginError = response.data.message;
+                    self.alert1 = true;
+                    console.log(response);
+
+                    window.location = "/dashboard"
+
+                  })
+                  .catch(function (error) {
+                    self.loginError = error;
+                    self.alert1 = true;
+                    console.log(error);
+                  });*/
+
+              }
         }
       })

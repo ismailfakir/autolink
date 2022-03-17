@@ -3,11 +3,17 @@
 # https://www.playframework.com/documentation/latest/ScalaRouting
 # ~~~~
 
-# An example controller showing a sample home page
+# HomeController
 GET     /                           controllers.HomeController.index()
 GET     /login                      controllers.HomeController.login()
+#+nocsrf
+POST    /login                      controllers.HomeController.loginUser()
+
 GET     /dashboard                  controllers.HomeController.dashboard()
 GET     /logs                       controllers.HomeController.logs()
+
+# fortnox
+GET /users/auth/fortnox/callback    controllers.HomeController.fortnoxCallback()
 
 # users
 GET     /users                      controllers.UserController.listUsers()

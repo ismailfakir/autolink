@@ -28,7 +28,7 @@ object MongoDb extends MongodbConfig {
   val settings: MongoClientSettings = MongoClientSettings.builder()
     .applyToClusterSettings(b =>b.hosts(List(new ServerAddress(url)).asJava))
     .codecRegistry(codecRegistry)
-    .addCommandListener(new DbQueryCommandListener)
+    //.addCommandListener(new DbQueryCommandListener)
     .credential(credential)
     .build()
 
